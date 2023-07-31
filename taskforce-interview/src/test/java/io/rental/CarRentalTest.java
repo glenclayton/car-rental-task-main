@@ -133,4 +133,13 @@ public class CarRentalTest {
         DatePeriod dp3 = new DatePeriod(LocalDate.of(2023, 03, 01), LocalDate.of(2023, 03, 02)); 
         assertThat(CAR1.isAvailable(dp3)).isTrue();
     }
+
+    @Test
+    public void testCarIsUnavailable() {
+        DatePeriod dp1 = new DatePeriod(LocalDate.of(2023, 01, 15), LocalDate.of(2023, 01, 20)); 
+        Rental rental = new Rental(RENTER1,dp1);
+        CAR1.rent(rental);
+        DatePeriod dp2 = new DatePeriod(LocalDate.of(2023, 01, 16), LocalDate.of(2023, 01, 17)); 
+        assertThat(CAR1.isAvailable(dp2)).isFalse();
+    }
 }
