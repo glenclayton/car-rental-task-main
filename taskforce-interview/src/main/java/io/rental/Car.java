@@ -1,11 +1,17 @@
 package io.rental;
 
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import io.utils.DatePeriod;
+
 public class Car {
     private final String make;
     private final String model;
     private final String registrationNumber;
     private String rentalGroup;
     private double costPerDay;
+    private SortedSet<DatePeriod> rentals;
 
     public String getMake() {
         return make;
@@ -33,6 +39,13 @@ public class Car {
         this.registrationNumber = registrationNumber;
         this.rentalGroup = rentalGroup;
         this.costPerDay = costPerDay;
+        rentals = new TreeSet<DatePeriod>();
     }
+
+	public boolean isAvailable(DatePeriod dates) {
+		return false;
+	}
+
+   
 
 }
