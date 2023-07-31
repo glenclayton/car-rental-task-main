@@ -1,4 +1,5 @@
 package io.rental;
+import io.utils.DatePeriod;
 import io.utils.DoubleRange;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -95,5 +96,41 @@ public class CarRentalTest {
 
         assertThat(carsAvailable.size()).isEqualTo(2);  
 
+    }
+
+    @Test
+    public void testCarIsAvailableWithNoRentals() {
+        DatePeriod dp = new DatePeriod(LocalDate.of(2023, 01, 15), LocalDate.of(2023, 01, 16)); 
+        assertThat(CAR1.isAvailable(dp)).isTrue();
+    }
+
+    @Test
+    public void testCarIsAvailableWithEarlierRental() {
+        DatePeriod dp1 = new DatePeriod(LocalDate.of(2023, 01, 15), LocalDate.of(2023, 01, 16)); 
+        Rental rental = new Rental(RENTER1,dp1);
+        CAR1.rent(rental);
+        DatePeriod dp2 = new DatePeriod(LocalDate.of(2023, 02, 15), LocalDate.of(2023, 02, 16)); 
+        assertThat(CAR1.isAvailable(dp2)).isTrue();
+    }
+
+    @Test
+    public void testCarIsAvailableWithLaterRental() {
+        DatePeriod dp1 = new DatePeriod(LocalDate.of(2023, 03, 15), LocalDate.of(2023, 03, 16)); 
+        Rental rental = new Rental(RENTER1,dp1);
+        CAR1.rent(rental);
+        DatePeriod dp2 = new DatePeriod(LocalDate.of(2023, 02, 15), LocalDate.of(2023, 02, 16)); 
+        assertThat(CAR1.isAvailable(dp2)).isTrue();
+    }
+
+     @Test
+    public void testCarIsAvailableWithGapInRental() {
+        DatePeriod dp1 = new DatePeriod(LocalDate.of(2023, 03, 15), LocalDate.of(2023, 03, 16)); 
+        Rental rental = new Rental(RENTER1,dp1);
+        CAR1.rent(rental);
+        DatePeriod dp2 = new DatePeriod(LocalDate.of(2023, 02, 15), LocalDate.of(2023, 02, 16)); 
+        Rental rental2 = new Rental(RENTER2, dp2);
+        CAR1.rent(rental2);
+        DatePeriod dp3 = new DatePeriod(LocalDate.of(2023, 03, 01), LocalDate.of(2023, 03, 02)); 
+        assertThat(CAR1.isAvailable(dp3)).isTrue();
     }
 }

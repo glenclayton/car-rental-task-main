@@ -2,7 +2,7 @@ package io.rental;
 import io.utils.DatePeriod;
 import io.utils.DatePeriodUtil;
 
-public class Rental {
+public class Rental implements Comparable<Rental> {
     private final Renter renter;
     private final DatePeriod period;
 
