@@ -142,4 +142,27 @@ public class CarRentalTest {
         DatePeriod dp2 = new DatePeriod(LocalDate.of(2023, 01, 16), LocalDate.of(2023, 01, 17)); 
         assertThat(CAR1.isAvailable(dp2)).isFalse();
     }
+
+    @Test
+    public void testListCarsMatchingAndAvailableRentGivesOneCar() {
+        CarRentalCompany carRentalCompany = new CarRentalCompany();
+        carRentalCompany.addCar(CAR1);
+        carRentalCompany.addCar(CAR2);
+        carRentalCompany.addCar(CAR3);
+        carRentalCompany.addCar(CAR4);
+        DatePeriod dp1 = new DatePeriod(LocalDate.of(2023, 01, 15), LocalDate.of(2023, 01, 20)); 
+        Rental rental = new Rental(RENTER1,dp1);
+
+        CAR1.rent(rental);
+        CAR2.rent(rental);
+        CAR3.rent(rental);
+
+        DatePeriod dp2 = new DatePeriod(LocalDate.of(2023, 01, 17), LocalDate.of(2023, 01, 19));
+
+        Criteria criteria = new Criteria(Criteria.Field.MAKE,"VW");
+        List<Car> carsAvailable = carRentalCompany.matchingAvailableCars(criteria, dp2);
+
+        assertThat(carsAvailable.size()).isEqualTo(1);
+        assertThat(carsAvailable.get(0).getRegistrationNumber()).isEqualTo(CAR4.getRegistrationNumber());
+    }
 }
