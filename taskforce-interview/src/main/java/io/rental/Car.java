@@ -48,9 +48,11 @@ public class Car {
     }
 
 	public boolean isAvailable(DatePeriod dates) {
-        for (Rental rental : rentals) {
-            if (DatePeriodUtil.areOverlapping(rental.getPeriod(), dates))
-                return false;
+        synchronized(rentals) {
+            for (Rental rental : rentals) {
+                if (DatePeriodUtil.areOverlapping(rental.getPeriod(), dates))
+                    return false;
+            }
         }
 		return true;
 	}
