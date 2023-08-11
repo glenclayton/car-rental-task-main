@@ -52,5 +52,15 @@ public class CarRentalCompany {
     }
 
 
-    public void returnCar(Renter renter, Car car) {}
+    public void returnCar(Renter renter, Car car) {
+        // iterate through rented cars
+        // find the car with the same registration number   
+        // remove the car from the list of rented cars
+        for(Car c : rentedCars) {
+            if(c.getRegistrationNumber().equals(car.getRegistrationNumber())) {
+                rentedCars.remove(c);
+                break;
+            }
+        
+    }
 }
